@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const Detail = ({ data, handleAdd, handleRemove, handleLike, handleUnlike }) => {
    const { dept, number } = useParams();
-   let [course] = data.filter(c => c.dept === dept && c.number == number);
+   let [course] = data.filter(c => c.dept === dept && c.number === number);
    return (
-      <div>
+      <div className="col-12">
          <div className="d-flex justify-content-between">
             <h4 className="mt-1">{`${dept} ${number}`}</h4>
             <div>
