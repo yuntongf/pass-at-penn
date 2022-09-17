@@ -1,8 +1,20 @@
 import { Link } from "react-router-dom";
 
+const cartString = (courses) => {
+  var result = "";
+  for (var i = 0; i < courses.length; i++) {
+    result += result == "" ? `${courses[i].dept}${courses[i].number}` : `+${courses[i].dept}${courses[i].number}`;
+  }
+  return result;
+}
 const Cart = ({ courses, handleRemove }) => (
   <div style={{ maxHeight: 700, overflow: 'auto' }}>
-    <h4>Course Cart</h4>
+    <div className="d-flex justify-content-between">
+      <h4 className="mt-1">Course Cart</h4>
+      <Link to={`/Checkout/${cartString(courses)}`}>
+        <button className="ms-2 btn btn-light" >Checkout</button>
+      </Link>
+    </div>
     {courses.length == 0 ?
       <p>Your cart is currently empty!</p> :
       <div>

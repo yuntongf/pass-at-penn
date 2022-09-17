@@ -363,7 +363,9 @@
     "dept": "CIS",
     "number": 497,
     "title": "Senior Project (DMD Students only)",
-    "prereqs": "Senior standing or permission of instructor",
+    "prereqs": [
+      "Senior standing or permission of instructor"
+    ],
     "description": "The goal of this course is to provide an opportunity for seniors to define, design, and execute a project of your own choosing that demonstrates the technical skills and abilities that you have acquired during your 4 years as undergraduates. Evaluation is based on selecting an interesting topic, completing appropriate research on the state of the art in that area, communicating your objectives in writing and in presentations, accurately estimating what resources will be required to complete your chosen task, coding necessary functionality, and executing your plan."
   }
 ]

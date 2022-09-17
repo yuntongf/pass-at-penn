@@ -1,45 +1,56 @@
 import { useParams } from "react-router-dom";
-
-const findParams = (data, dept, number) => {
-   let result = data.filter(c => c.dept === dept && c.number == number);
-   return [result[0].title, result[0].description, result[0].prereqs];
-}
+import { Link } from "react-router-dom";
 
 const Detail = ({ data, handleAdd, handleRemove, handleLike, handleUnlike }) => {
    const { dept, number } = useParams();
    let [course] = data.filter(c => c.dept === dept && c.number == number);
    return (
       <div>
-         {course.liked ?
-            <div className="d-flex justify-content-between">
-               <h4>{`${dept} ${number}`}</h4>
-               <btn onClick={() => handleUnlike(course)} className=" btn btn-outline-warning"> ★ </btn>
-            </div> :
-            <div className="d-flex justify-content-between">
-               <h4>{`${dept} ${number}`}</h4>
-               <btn className="btn btn-outline-secondary" onClick={() => handleLike(course)}> ☆ </btn>
+         <div className="d-flex justify-content-between">
+            <h4 className="mt-1">{`${dept} ${number}`}</h4>
+            <div>
+               {course.added ?
+                  <btn onClick={() => handleRemove(course)} style={{ width: 110 }} className="me-2 mb-2 btn btn-danger">Remove</btn> :
+                  <btn className="me-2 mb-2 btn btn-primary" style={{ width: 110 }} onClick={() => handleAdd(course)}> Add to Cart</btn>
+               }
+               <btn onClick={() => course.liked ? handleUnlike(course) : handleLike(course)} className={course.liked ? "mb-2 btn btn-outline-warning" : "mb-2 btn btn-outline-secondary"} > ★ </btn>
             </div>
-         }
-         <p>{findParams(data, dept, number)[0]}</p>
+         </div>
+         <p>{course.title}</p>
          <h5>Course Description:</h5>
-         <p>{findParams(data, dept, number)[1]}</p>
+         <p>{course.description}</p>
          <div>
-            {findParams(data, dept, number)[2] &&
+            {course.prereqs &&
                <h5>Pre-requisites:</h5>}
 
-            {findParams(data, dept, number)[2] && <div>
-               {findParams(data, dept, number)[2].map(
-                  prereq =>
-                     <div>
-                        {prereq}
-                     </div>
-               )}
-            </div>}
+            {course.prereqs &&
+               <div>
+                  <div className="row row-cols-4">
+                     {course.prereqs.map(
+                        prereq =>
+                           prereq.dept ?
+                              <div className="card me-3 p-3 col-5">
+                                 <Link className="text-decoration-none" to={`/${prereq.dept}/${prereq.number}`}>
+                                    <h4>{`${prereq.dept} ${prereq.number}`}</h4>
+                                    <div className="mb-2">{prereq.title}</div>
+                                 </Link>
+                                 {prereq.added ?
+                                    <btn onClick={() => handleRemove(prereq)} className="btn btn-danger">Remove</btn> :
+                                    <btn className="btn btn-primary" onClick={() => handleAdd(prereq)}> Add to Cart</btn>
+                                 }
+                              </div>
+                              :
+                              <div className="row row-cols-4 col-12">
+                                 <div className="col-5 card me-3 p-3">
+                                    {prereq}
+                                 </div>
+                              </div>
+
+                     )}
+                  </div>
+               </div>}
          </div>
-         {course.added ?
-            <btn onClick={() => handleRemove(course)} className="m-2 btn btn-danger">Remove</btn> :
-            <btn className="btn btn-primary" onClick={() => handleAdd(course)}> Add to Cart</btn>
-         }
+
 
       </div>
    )

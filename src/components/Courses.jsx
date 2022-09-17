@@ -1,7 +1,7 @@
-import courses from '../data/courses.json'
+
 import { Link } from 'react-router-dom';
 
-const Courses = () => (
+const Courses = ({ courses }) => (
   <ul className="list-group mt-4" style={{ maxHeight: 650, overflow: 'auto' }}>
     {courses.map(({ dept, number, title, added, liked }) => (
       <Link className="text-decoration-none" to={`/${dept}/${number}`}>
