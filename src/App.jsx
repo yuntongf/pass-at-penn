@@ -1,6 +1,6 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import Nav from './components/Nav'
+import Nav from './components/Nav.jsx'
 import Courses from './components/Courses'
 import Cart from './components/Cart'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -9,19 +9,36 @@ import { React, useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Receipt from './components/Receipt'
+import Search from './components/Search'
+import Filter from './components/Filter'
 
 function App() {
   /* certain data such as cart and noted are stored on sessionStorage 
   so they can be retrieved repeatedly from all elements */
   const q = sessionStorage.getItem('query')
+  let params = [0, 0, 0]
+  if (q) {
+    const queries = q.split("&");
+    let k = 0
+    for (let i = 0; i < queries.length; i++) {
+      const param = queries[i].split('=');
+      if (param.length > 1) {
+        params[k] = param[1];
+        k++;
+      }
+    }
+  }
   const c = sessionStorage.getItem('cart')
   const l = sessionStorage.getItem('noted')
   const [cart, setCart] = useState(c ? JSON.parse(c) : [])
-  console.log('cart is now', cart)
   const [noted, setNoted] = useState(l ? JSON.parse(l) : [])
   const [data, setData] = useState([])
   const [showCart, setShowCart] = useState(false)
   const [query, setQuery] = useState('')
+  const [difficulty, setDifficulty] = useState(params[0] === 0 ? [1, 4] : params[0].split('-'))
+  const [quality, setQuality] = useState(params[1] === 0 ? [1, 4] : params[1].split('-'))
+  const [instructorQuality, setInstructorQuality] = useState(params[2] === 0 ? [1, 4] : params[2].split('-'))
+  const [showFilter, setShowFilter] = useState(false)
 
   useEffect(() => {
     fetch(`/api/base/2022A/search/courses/?${q !== 'undefined' ? `search=${q}` : 'search=CIS'}`)
@@ -75,10 +92,9 @@ function App() {
       })
       return
     }
-
     const courses = [...data]
-    const index = courses.indexOf(course)
-    courses[index].added = true
+    const [target] = courses.filter((c) => c.dept === course.dept && c.number === course.number)
+    target.added = true
 
     const temp = [...cart, course]
     setCart(temp)
@@ -86,10 +102,22 @@ function App() {
   }
 
   function handleNote(course, note) {
+    if (note === "") {
+      toast.error('Note cannot be empty', {
+        position: 'top-center',
+        autoClose: 1500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      })
+      return
+    }
     const courses = [...data]
-    const index = courses.indexOf(course)
-    courses[index].noted = true
-    courses[index].note = note
+    const [target] = courses.filter((c) => c.dept === course.dept && c.number === course.number)
+    target.noted = true
+    target.note = note
     const temp = [...noted, course]
     setNoted(temp)
     setData(courses);
@@ -107,9 +135,9 @@ function App() {
 
   function handleRemove(course) {
     const courses = [...data]
-    const index = courses.indexOf(course)
-    if (courses[index])
-      courses[index].added = false
+    const [target] = courses.filter((c) => c.dept === course.dept && c.number === course.number)
+    target.added = false
+    setData(courses)
 
     let temp = [...cart]
     temp = temp.filter(c => c.dept !== course.dept || c.number !== course.number)
@@ -119,9 +147,9 @@ function App() {
 
   function handleUnnote(course) {
     const courses = [...data]
-    const index = courses.indexOf(course)
-    courses[index].noted = false
-    courses[index].note = ""
+    const [target] = courses.filter((c) => c.dept === course.dept && c.number === course.number)
+    target.noted = false
+    target.note = ""
     let temp = [...noted]
     temp = temp.filter(c => c.dept !== course.dept || c.number !== course.number)
     setNoted(temp)
@@ -152,23 +180,36 @@ function App() {
               <Nav handleShowCart={handleShowCart} showCart={showCart} />
               <div>
                 {q == null
-                  ? <div className='mt-5 d-flex justify-content-center'>
-                    <div className='col-7 d-flex' style={{ position: 'absolute', top: '40%' }}>
-                      <input type='text' name='query' className='form-control my-3' placeholder='Search for a course' value={query} onChange={e => setQuery(e.currentTarget.value)} />
-                      <a href={`/Search/${query}`}>
-                        <button style={{ width: 80 }} className='m-3 btn btn-primary' onClick={() => sessionStorage.setItem('query', query)}> Search</button>
-                      </a>
-                    </div>
-                  </div>
-                  : <div>
-                    <div className='mt-4 d-flex justify-content-center'>
-                      <div className='col-5 d-flex'>
-                        <input type='text' name='query' className='form-control my-3' placeholder='Search for a course' value={query} onChange={e => setQuery(e.currentTarget.value)} />
-                        <a href={`/Search/${query}`}>
-                          <button style={{ width: 80 }} className='m-3 btn btn-primary' onClick={() => sessionStorage.setItem('query', query)}> Search</button>
-                        </a>
+                  ?
+                  <div>
+                    <div className='mt-5 d-flex justify-content-center'>
+                      <div className='col-8' style={{ position: 'absolute', top: '40%' }}>
+                        <div className='d-flex'>
+                          <button className='btn col-2' onClick={() => setShowFilter(!showFilter)}>{`${showFilter ? "Hide" : "Show"} Filter`}</button>
+                          <input type='text' name='query' className='form-control my-3' placeholder='Search for a course' value={query} onChange={e => setQuery(e.currentTarget.value)} />
+                          <a href={`/Search/${query}`}>
+                            <button style={{ width: 80 }} className='m-3 btn btn-primary' onClick={() => sessionStorage.setItem('query', query)}> Search</button>
+                          </a>
+                        </div>
+                        <div className='col-11 mt-3'>
+                          <Filter showFilter={showFilter} quality={quality} difficulty={difficulty} instructorQuality={instructorQuality} setQuality={setQuality} setDifficulty={setDifficulty} setInstructorQuality={setInstructorQuality} />
+                        </div>
                       </div>
                     </div>
+                  </div>
+                  :
+                  <div>
+                    <Search
+                      setShowFilter={setShowFilter}
+                      showFilter={showFilter}
+                      query={query}
+                      setQuery={setQuery}
+                      difficulty={difficulty}
+                      quality={quality}
+                      instructorQuality={instructorQuality}
+                      setQuality={setQuality}
+                      setInstructorQuality={setInstructorQuality}
+                      setDifficulty={setDifficulty} />
                     <div className='d-flex justify-content-center'>
                       <small className='mt-1 mb-2'>
                         {`Showing ${data.length} results for ${q}`}
@@ -195,39 +236,42 @@ function App() {
             </div>
           }
         />
-        <Route
+        < Route
           path='/Checkout/:receipt'
           element={
-            <div>
+            < div >
               <Nav handleShowCart={handleShowCart} showCart={showCart} />
               <div className='d-flex justify-content-center'>
                 <div className='col-5 mt-5'>
                   <Receipt />
                 </div>
               </div>
-            </div>
+            </div >
           }
         />
-        <Route
+        < Route
           path='/Search/:q'
           element={
-            <App />
+            < App />
           }
         />
-        <Route
+        < Route
           path='/:dept/:number'
           element={
-            <div>
+            < div >
               <ToastContainer />
               <Nav handleShowCart={handleShowCart} showCart={showCart} />
-              <div className='mt-4 d-flex justify-content-center'>
-                <div className='col-5 d-flex'>
-                  <input type='text' name='query' className='form-control my-3' placeholder='Search for a course' value={query} onChange={e => setQuery(e.currentTarget.value)} />
-                  <a href={`/Search/${query}`}>
-                    <button style={{ width: 80 }} className='m-3 btn btn-primary' onClick={() => sessionStorage.setItem('query', query)}> Search</button>
-                  </a>
-                </div>
-              </div>
+              <Search
+                setShowFilter={setShowFilter}
+                showFilter={showFilter}
+                query={query}
+                setQuery={setQuery}
+                difficulty={difficulty}
+                quality={quality}
+                instructorQuality={instructorQuality}
+                setQuality={setQuality}
+                setInstructorQuality={setInstructorQuality}
+                setDifficulty={setDifficulty} />
               <div className='d-flex justify-content-center'>
                 <small className='mt-3'>
                   {`Showing ${data.length} results for ${q}`}
@@ -273,16 +317,16 @@ function App() {
                       borderRadius: '4px',
                       maxinumHeight: 700
                     }}>
-                      <Cart courses={cart} handleRemove={handleRemove} />
+                      <Cart handleRemove={handleRemove} />
                     </div>
                   </div>
                 }
               </div>
-            </div>
+            </div >
           }
         />
-      </Routes>
-    </div>
+      </Routes >
+    </div >
   )
 }
 

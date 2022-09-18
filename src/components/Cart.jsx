@@ -8,8 +8,9 @@ const cartString = (courses) => {
   }
   return result;
 }
-const Cart = ({ courses, handleRemove }) => {
-  courses = JSON.parse(sessionStorage.getItem('cart'))
+const Cart = ({ handleRemove }) => {
+  let courses = JSON.parse(sessionStorage.getItem('cart'))
+  if (!courses) courses = []
   return (
     <div style={{ maxHeight: 500, overflow: 'auto' }}>
       <div className="d-flex justify-content-between">
@@ -30,7 +31,7 @@ const Cart = ({ courses, handleRemove }) => {
               </Link>
               {course.note !== "" &&
                 <div className=" ms-3">{course.note}</div>}
-              <btn onClick={() => handleRemove(course)} className="m-3 btn btn-danger">Remove</btn>
+              <button onClick={() => handleRemove(course)} className="m-3 btn btn-danger">Remove</button>
             </div>
           ))}
         </div>}

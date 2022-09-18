@@ -7,7 +7,6 @@ const Detail = ({ data, handleAdd, handleRemove, handleNote, handleUnnote }) => 
    const { dept, number } = useParams();
    let [course] = data.filter(c => c.dept === dept && c.number === number);
    let [note, setNote] = useState(course.note);
-   console.log(note)
 
    function handleUn() {
       setNote("");
