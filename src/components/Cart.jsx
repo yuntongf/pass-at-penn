@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import React from "react";
 
 const cartString = (courses) => {
   var result = "";
@@ -8,7 +9,7 @@ const cartString = (courses) => {
   return result;
 }
 const Cart = ({ courses, handleRemove }) => {
-  console.log(courses);
+  courses = JSON.parse(sessionStorage.getItem('cart'))
   return (
     <div style={{ maxHeight: 500, overflow: 'auto' }}>
       <div className="d-flex justify-content-between">
@@ -21,13 +22,15 @@ const Cart = ({ courses, handleRemove }) => {
         <p>Your cart is currently empty!</p> :
         <div>
           {courses.map((course) => (
-            <div className="card mt-3">
+            <div className="card mb-2" key={`${course.dept}-${course.number}`}>
               <Link className="text-decoration-none" to={`/${course.dept}/${course.number}`}>
-                <li key={`${course.dept}-${course.number}`} className="list-group-item list-group-item-action flex-column align-items-start">
-                  <div className=" m-1 p-3">{`${course.dept} ${course.number}: ${course.title}`}</div>
+                <li className="list-group-item">
+                  <div className="mt-3 ms-3 me-3 mb-2">{`${course.dept} ${course.number}: ${course.title}`}</div>
                 </li>
               </Link>
-              <btn onClick={() => handleRemove(course)} className="m-2 btn btn-danger">Remove</btn>
+              {course.note !== "" &&
+                <div className=" ms-3">{course.note}</div>}
+              <btn onClick={() => handleRemove(course)} className="m-3 btn btn-danger">Remove</btn>
             </div>
           ))}
         </div>}
