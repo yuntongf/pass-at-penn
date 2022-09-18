@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify'
 import React from "react";
 
 const cartString = (courses) => {
@@ -15,9 +16,21 @@ const Cart = ({ handleRemove }) => {
     <div style={{ maxHeight: 500, overflow: 'auto' }}>
       <div className="d-flex justify-content-between">
         <h4 className="mt-1">Course Cart</h4>
-        <Link to={`/Checkout/${cartString(courses)}`}>
-          <button className="ms-2 btn btn-light" >Checkout</button>
-        </Link>
+        {courses.length > 0 ?
+          <Link to={`/Checkout/${cartString(courses)}`}>
+            <button className="ms-2 btn btn-light" >Checkout</button>
+          </Link>
+          : <button className="ms-2 btn btn-light" onClick={() =>
+            toast.warning('Need to check out at least one course', {
+              position: 'top-center',
+              autoClose: 1500,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined
+            })}>Checkout</button>}
+
       </div>
       {courses.length == 0 ?
         <p>Your cart is currently empty!</p> :

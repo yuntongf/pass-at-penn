@@ -6,9 +6,10 @@ import React from "react";
 const Detail = ({ data, handleAdd, handleRemove, handleNote, handleUnnote }) => {
    const { dept, number } = useParams();
    let [course] = data.filter(c => c.dept === dept && c.number === number);
-   let [note, setNote] = useState(course.note);
+   let [note, setNote] = useState("");
+   note = course.note;
 
-   function handleUn() {
+   function handleTrash() {
       setNote("");
       return handleUnnote(course);
    }
@@ -79,7 +80,7 @@ const Detail = ({ data, handleAdd, handleRemove, handleNote, handleUnnote }) => 
             </div>
             <div>
                <btn onClick={() => handleNote(course, note)} className="me-2 btn btn-outline-warning" > ✏️ </btn>
-               {course.noted && <btn onClick={() => handleUn()} className={course.noted ? "btn btn-outline-secondary" : "btn btn-outline-warning"} > 🗑 </btn>}
+               {course.noted && <btn onClick={() => handleTrash()} className={course.noted ? "btn btn-outline-secondary" : "btn btn-outline-warning"} > 🗑 </btn>}
             </div>
          </div>
 
