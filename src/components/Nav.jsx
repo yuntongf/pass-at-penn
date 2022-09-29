@@ -8,7 +8,7 @@ const Nav = ({ handleShowCart, showCart }) => {
   /* if query is null, we are on the main search page, in which case we don't show the cart button*/
   try {
     queryString = JSON.parse(sessionStorage.getItem('query'));
-    onMainSearchPage = queryString != null
+    if (queryString !== "") onMainSearchPage = true
   } catch {
     queryString = "";
   }
@@ -23,7 +23,7 @@ const Nav = ({ handleShowCart, showCart }) => {
           <h2 className=" m-2">Penn Course Cart</h2>
         </label>
       </a>
-      {onMainSearchPage &&
+      {!onMainSearchPage &&
         <button style={{ width: 120 }} className="m-1 btn btn-outline-secondary" onClick={() => handleShowCart()}> {`${showCart ? "Hide" : "Show"} Cart`} </button>}
     </div>)
 }

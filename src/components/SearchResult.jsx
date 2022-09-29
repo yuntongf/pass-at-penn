@@ -3,6 +3,8 @@ import Courses from "./Courses";
 import React from "react";
 
 const SearchResult = ({ queryString, data, showCart, handleRemove }) => {
+   data = data.filter((c) => c.title !== "")
+   console.log(data)
    return (
       <div>
          <div className='d-flex justify-content-center'>
