@@ -1,4 +1,4 @@
-# Frontend Challenge Fall '22
+# Penn Course Cart https://www.penncoursecart.com/
 
 ## Main features
 User will be directed to the main search page if it is their first time visiting the website. On the main search page, user can type in any keywords in the search bar, and adjust the slider to filter by difficulty, course quality, and instructor quality. 
