@@ -9,12 +9,12 @@ Once a course is added to the cart or some notes have been written down for that
 
 On the top right is the show/hide cart button, which displays courses in the cart on show. Users are allowed to remove courses from the cart by clicking 'remove' or see course detail by clicking on the title of the course.
 
-## design thinking
-Since cart content should stay unchanged with the page is refreshed or a new search query is made, I chose to store cart information in sessionStorage. This enables accessing of cart content from all pages. In addition, cart is going to be accessed frequently but since the cart can only have at most 7 courses, it is likely not going to modified on a frequent basis. Hence, storing cart content on sessionStorage provides becomes a good design choice because it provides global accessability despite inability to expand and be constantly modified.
+## Design thinking
+Since cart content should stay unchanged with the page is refreshed or a new search query is made, I chose to store cart information in sessionStorage. This enables accessing of cart content from all pages. In addition, cart is going to be accessed frequently but since the cart can only have at most 7 courses, it is likely not going to be modified on a frequent basis. Hence, storing cart content on sessionStorage provides becomes a good design choice because it provides global accessability despite inability to expand and to be constantly modified.
 
 App.js is where I declared and initiated most of my state management variables. I pass down the necessary ones to the children pages and modify them using methods from files in the services folder. 
 
-## potential improvements
+## Potential improvements
 1. Implement user registration and authentication
 2. Allow filtering by course availability
 3. Display requirements fulfilled by the course on the course detail page
