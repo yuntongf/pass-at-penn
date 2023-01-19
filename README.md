@@ -20,3 +20,11 @@ App.js is where I declared and initiated most of my state management variables. 
 3. Display requirements fulfilled by the course on the course detail page
 4. Allow user to rank courses in the cart based on preference
 5. Add unit or integration tests
+
+
+
+##
+Redux
+redux design
+
+even after the user starts a new search, the notes and cart content persists

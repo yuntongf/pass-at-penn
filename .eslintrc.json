@@ -4,9 +4,9 @@
         "es2021": true
     },
     "extends": [
-        "eslint:recommended",
-        "prettier",
-        "plugin:react/recommended"
+        // "eslint:recommended",
+        // "prettier",
+        // "plugin:react/recommended"
     ],
     "overrides": [],
     "parserOptions": {
