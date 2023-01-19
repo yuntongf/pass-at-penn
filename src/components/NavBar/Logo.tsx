@@ -6,7 +6,7 @@ import { useDispatch} from 'react-redux';
 
 const Logo = () => {
     const dispatch = useDispatch();
-    const logo = "Penn Course Cart  🛒";
+    const logo = "Pass@Penn";
 
     const returnToFrontPage = () => {
         dispatch(frontPageReturned(null));
