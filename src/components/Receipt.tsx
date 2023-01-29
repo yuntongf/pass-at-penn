@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom"
 import React from "react";
 
 const Receipt = () => {
-   let { receipt } = useParams();
-   let courses = receipt!.split("+");
+   const { receipt } = useParams();
+   const courses = receipt ? receipt.split("+") : [];
    
    return (
       <>

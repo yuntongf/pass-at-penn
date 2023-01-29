@@ -1,30 +1,34 @@
 # Penn Course Cart https://www.penncoursecart.com/
 
-## Main features
-User will be directed to the main search page if it is their first time visiting the website. On the main search page, user can type in any keywords in the search bar, and adjust the slider to filter by difficulty, course quality, and instructor quality. 
+## Frameworks/Technologies/Packages
+React, TypeScript, Redux, Bootstrap, react-toastify, typescript-eslint, react-beautiful-dnd, axios, react-router-dom
 
-After they press the search button, a search query is sent to the backend of penncourseplan, and the returned search result will be displayed as a list group. Click on any of the courses, the user will be provided with more detailed information about the course. They can choose to add the course to cart. They are also provided with the choice to take notes on a course. Notes for a course can be edited and deleted. The notes will show up in the cart to help user compare the notes they took for all courses in the cart.
+## Main Features
+* Search for a course:
+user can search for courses using keyword, course department/number, and filter by quality, difficulty, and instructor quality. Makes api call to the penncourses backend using Redux RTK query and the search result is cached for 60 seconds on the client side to enable fast reponse time and lower burden on the backend.
 
-Once a course is added to the cart or some notes have been written down for that course, emojis will show next to the course title in the course list group (✅ for in cart and ✏️ for note taken). This helps the user to easily see which course they have added to the cart or have taken notes for from the list of search result.
+* Add a course to cart:
+User can add no more than 7 courses to cart. A react-toastify warning will be given if user exceeds the limit. A course added to cart will have a ✅ in front of its title.
 
-On the top right is the show/hide cart button, which displays courses in the cart on show. Users are allowed to remove courses from the cart by clicking 'remove' or see course detail by clicking on the title of the course.
+User can have multiple carts and give them different names. They can switch between the carts by clicking on the cart's name in the "All carts" section. You can choose a cart and checkout courses in it.
 
-## Design thinking
-Since cart content should stay unchanged with the page is refreshed or a new search query is made, I chose to store cart information in sessionStorage. This enables accessing of cart content from all pages. In addition, cart is going to be accessed frequently but since the cart can only have at most 7 courses, it is likely not going to be modified on a frequent basis. Hence, storing cart content on sessionStorage provides becomes a good design choice because it provides global accessability despite inability to expand and to be constantly modified.
+User can click on course title in the cart to view details of the course; they can also drag courses to rank them in terms of preference.
 
-App.js is where I declared and initiated most of my state management variables. I pass down the necessary ones to the children pages and modify them using methods from files in the services folder. 
+* Four Year Plan
+To go to four years plan mode, click on "Four Year Plan" on the nav bar. A table with all 8 semesters will be shown as well as the user's cart. To plan a course for a semester, drag the course title from the cart to the corrresponding semester box.
 
-## Potential improvements
-1. Implement user registration and authentication
-2. Allow filtering by course availability
-3. Display requirements fulfilled by the course on the course detail page
-4. Allow user to rank courses in the cart based on preference
-5. Add unit or integration tests
+* Take Note For A Course
+To take a note for a course, go to course detail and add a note in the text box at the bottom. The note will also be shown along with the course title in cart so you can compare the notes for different courses easily and make decisions more easily. A course with a note added will have a ✏️ emoji next to its title.
 
+## Design Thinking
 
+* Redux state management
+Used React Redux to manage states. Having a global state is helpful especially in this case since the application has many moving parts, and if one of them is updated the other ones must be updated simultaneously. 
 
-##
-Redux
-redux design
+For example, if in the course detail section's text area a note is added to a course that is already in cart. The ✏️ emoji must be added to the course title in the search result section; the note content must persist in the text box in the course detail section for future edits; and the note must also appear under the corresponding course title in cart.
 
-even after the user starts a new search, the notes and cart content persists
+The redux store essentially serves as a database on the frontend. All the data will persist unless the page is manually refreshed by the user. 
+
+* TypeScript and Eslint
+The app is built with TypeScript with eslint, strictNullChecks, and noImplicitAny enabled. This makes it robust and less prone to errors.
+

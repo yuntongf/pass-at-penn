@@ -13,8 +13,9 @@ const Courses = () => {
   const current = useSelector((store : RootState) => store.entities.current);
 
   return (
-    <>{courses &&
-      <div className={`${current ? 'col-3' : 'col-5'} mt-4 me-4`}>
+    <>
+      {!!courses &&
+      <div className={`${current.id ? 'col-3' : 'col-5'} mt-4 me-4`}>
         <ul className="list-group" style={searchResult}>
           {courses.map((course : ICourse) => (
             <Course course={course}/>
@@ -22,7 +23,7 @@ const Courses = () => {
         </ul>
       </div>}
       
-      {current && 
+      {current.id && 
           <div className={showCart ? 'col-5' : 'col-6'}>
             <Detail />
           </div>

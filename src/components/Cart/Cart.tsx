@@ -1,5 +1,4 @@
 import React from "react";
-import {useSelector} from 'react-redux';
 import { CartPanel } from "../../styles/CartStyles";
 import CurrentCartContent from "./CurrentCartContent";
 import CurrentCartTitle from "./CurrentCartTitle";

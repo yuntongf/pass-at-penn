@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Slider from '@mui/material/Slider';
 import { filtersSet } from "../../store/reducers/search";
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,21 +6,17 @@ import { RootState } from "../../store/configureStore";
 import { slider } from "../../styles/SearchStyle";
 
 const Filter = () => {
-   const filters = useSelector((store : RootState) => store.search.filters);
-   console.log(filters);
-
-   const showFilter = useSelector((store : RootState) => store.search.showFilter);
    const dispatch = useDispatch();
-   
-   if (showFilter) {
-   }
-   const difficulty = filters.difficulty;
-   const quality = filters.quality;
-   const instructorQuality = filters.instructorQuality;
 
    const setFilter = (type: string, value: string) => {
       dispatch(filtersSet({type:type, value:value}));
    }
+
+   const showFilter = useSelector((store : RootState) => store.search.showFilter);
+   const filters = useSelector((store : RootState) => store.search.filters);
+   const difficulty = filters.difficulty;
+   const quality = filters.quality;
+   const instructorQuality = filters.instructorQuality;
    
    return (
       <div>

@@ -6,11 +6,6 @@ import { checkOutPageSet } from '../../store/reducers/nav';
 import { RootState } from '../../store/configureStore';
 
 const CurrentCartTitle = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const cart = useSelector((store : RootState) => store.entities.cart);
-    if (cart) var courses = cart.courses;
-
     const handleCheckout = () => {
         if (courses.length > 0) { 
             dispatch(checkOutPageSet(true));
@@ -18,6 +13,11 @@ const CurrentCartTitle = () => {
         }
         else toastWarn('Need to check out at least one course!');
     }
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const cart = useSelector((store : RootState) => store.entities.cart);
+    const courses = cart.courses;
 
     return (
         <>

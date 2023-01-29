@@ -11,7 +11,7 @@ const Detail = () => {
 
    return (
       <div className='mt-4 me-4' style={detailWrapper}> 
-      {course &&
+      {course.id &&
          <>
             <div className="mb-3" style={descriptionWrapper}>
                <DetailHeader/>

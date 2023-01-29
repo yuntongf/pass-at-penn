@@ -1,8 +1,16 @@
 
 import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { coursesApi } from '../services/courseServices';
 import reducer from './reducer';
 
-export const store = configureStore({reducer: reducer});
+export const store = configureStore(
+    {
+        reducer: reducer,
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(coursesApi.middleware)
+    });
+
+setupListeners(store.dispatch);
 
 export interface IYear {
     name: string,
@@ -36,14 +44,20 @@ export interface ICart {
     courses: ICourse[]
 }
 
+export interface IEntities {
+    courses: ICourse[],
+    current: ICourse,
+    cart: ICart,
+    carts: ICart[],
+    fourYears: IYear[],
+    notes: {
+        id: string,
+        note: string
+    }[],
+}
+
 export interface RootState {
-    entities: {
-        courses: ICourse[],
-        current: ICourse,
-        cart: ICart,
-        carts: ICart[],
-        fourYears: IYear[]
-    },
+    entities: IEntities,
     search: {
         queryString: string,
         filterString: string,
@@ -53,7 +67,8 @@ export interface RootState {
             quality: number[],
             instructorQuality: number[]
         },
-        loaded: boolean
+        loaded: boolean,
+        lastQueryString: string
     }
     nav: {
         showFourYearPlan: boolean,

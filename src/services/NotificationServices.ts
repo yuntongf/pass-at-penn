@@ -1,10 +1,12 @@
 import { toast } from 'react-toastify';
 
-export const toastWarn = (message) => {
+/* react toastify notifications */
+
+export const toastWarn = (message: string) => {
     toast.warning(message, {
         position: 'top-center',
         autoClose: 1700,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
@@ -12,11 +14,11 @@ export const toastWarn = (message) => {
     });
 };
 
-export const toastSuccess = (message) => {
+export const toastSuccess = (message: string) => {
     toast.success(message, {
         position: 'top-center',
         autoClose: 1700,
-        hideProgressBar: false,
+        hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,

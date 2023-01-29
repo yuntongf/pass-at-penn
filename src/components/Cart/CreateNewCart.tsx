@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import {useDispatch} from 'react-redux';
 import { newCartCreated } from "../../store/reducers/courses";
 
+// constants
+const createCartPrompt = "Create a new Cart:";
 
 const CreateNewCart = () => {
-    const dispatch = useDispatch();
-
-    // local state variable to hold new cart name
-    const [cartName, setCartName] = useState("");
-
     const handleCreate = () => {
         dispatch(newCartCreated(cartName));
         setCartName("");
     }
 
-    const createCartPrompt = "Create a new Cart:";
+    const dispatch = useDispatch();
+    const [cartName, setCartName] = useState(""); // local state variable to hold new cart name
+    
     return (
         <> 
             <div>{createCartPrompt}</div>

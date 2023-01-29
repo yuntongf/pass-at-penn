@@ -18,7 +18,7 @@ const FourYearPlanPage = () => {
                 <div className="m-2">
                     <FourYearPlan/>
                 </div>
-                {current && 
+                {current.id && 
                 <div className="col-3 m-2">
                     <Detail/>
                 </div>}

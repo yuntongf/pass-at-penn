@@ -8,17 +8,17 @@ interface CourseInterface {
 
 const Course = ({course} : CourseInterface) => {
     const dispatch = useDispatch();
-
-    const courseAddedEmoji = `${course.added ? '✅':''}`;
-    const noteAddedEmoji = `${course.note ? '✏️ ' : ""}`;
-    const courseTitle = `${course.dept} ${course.number}: ${course.title}`;
-    const title = courseAddedEmoji + ' ' + noteAddedEmoji + ' ' + courseTitle;
-
-    const id = `${course.dept}-${course.number}`;
-
     const handleDetail = (course : ICourse) => {
         dispatch(detailViewed(course));
     }
+
+    // based on if the courses has been added or taken note for, display corresponding emojis
+    const courseAddedEmoji = `${course.added ? '✅':''}`;
+    const noteAddedEmoji = `${course.note ? '✏️ ' : ""}`;
+    
+    const courseTitle = `${course.dept} ${course.number}: ${course.title}`;
+    const title = courseAddedEmoji + ' ' + noteAddedEmoji + ' ' + courseTitle;
+    const id = `${course.dept}-${course.number}`;
 
     return (
         <div className="" onClick={() => handleDetail(course)}>

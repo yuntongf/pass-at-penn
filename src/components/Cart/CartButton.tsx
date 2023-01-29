@@ -1,4 +1,4 @@
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { currentCartSet } from '../../store/reducers/courses';
 import { ICart } from '../../store/configureStore';
 
@@ -7,11 +7,11 @@ interface CartButtonProps {
 }
 
 const CartButton = ({cart} : CartButtonProps) => {
-    const dispatch = useDispatch();
-
     const handleClickOnCart = () => {
         dispatch(currentCartSet(cart));
     }
+    
+    const dispatch = useDispatch();
     return (
         <div onClick={handleClickOnCart}>
             <li key={cart.name} className="bg-light list-group-item">

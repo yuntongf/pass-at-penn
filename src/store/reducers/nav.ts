@@ -6,23 +6,30 @@ nav:
     showFourYearPlan: false,
     showCart: false,
     hideSearchBar: false,
+    onCheckoutPage: false,
     onContentPage: false  // true if on fourYearPlan page or on searchResult page; false otherwise
     
 }
 some notes on navigation:
     front page contains: navbar, searchbar
-    contentpage has two types:
+    content page has either of the following two pages:
         fourYearPlan page which shows Cart, Detail, and fourYearPlan
         searchResult page which shows list of Courses, Detail, and Cart
 */
 
 const slice = createSlice({
     name: 'nav',
-    initialState: {},
+    initialState: {
+        showFourYearPlan: false,
+        showCart: false,
+        hideSearchBar: false,
+        onContentPage: false,
+        onCheckoutPage: false
+    },
     reducers: {
         showFourYearPlanSet: (nav, action) => {
             nav.showFourYearPlan = !nav.showFourYearPlan;
-            /* if we are on fourYearPlan page, we automatically
+            /* if on fourYearPlan page, we automatically
               show cart and hide search bar */
             if (nav.showFourYearPlan) {
                 nav.showCart = true;
@@ -31,27 +38,26 @@ const slice = createSlice({
             } else {
                 nav.hideSearchBar = false;
             }
-            console.log(action.payload);
-            /* if !!data is false, then no data has been loaded 
+            /* no data has been loaded 
                 and we should not return to content page */
             if (!action.payload) { 
                 nav.onContentPage = false;
             }
         },
-        searchBarSet: (nav, action) => {
+        searchBarSet: (nav) => {
             nav.hideSearchBar = !nav.hideSearchBar;
         },
-        showCartSet: (nav, action) => {
+        showCartSet: (nav) => {
             nav.showCart = !nav.showCart;
         },
         onContentPageSet: (nav, action) => {
             nav.onContentPage = action.payload;
         },
-        showFourYearPlanReset: (nav, action) => {
+        showFourYearPlanReset: (nav) => {
             nav.showFourYearPlan = false;
             nav.hideSearchBar = false;
         },
-        frontPageReturned: (nav, action) => {
+        frontPageReturned: (nav) => {
             nav.onContentPage = false;
             nav.showFourYearPlan = false;
             nav.hideSearchBar = false;

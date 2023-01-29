@@ -6,7 +6,7 @@ import { RootState, IYear } from "../../store/configureStore";
 
 const FourYearPlan = () => {
     const years = useSelector((store : RootState) => store.entities.fourYears);
-    const fourYearPlanPrompt = "Drag course titles from cart and drop them in the areas below!";
+    const fourYearPlanPrompt = "Drag a course title from cart and drop it in the areas below!";
 
     return (
         <div className='mt-4' style={fourYearWrapper}>

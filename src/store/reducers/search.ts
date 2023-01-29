@@ -15,9 +15,22 @@ search:
 }
 */
 
+const initialFilters = {
+    difficulty: [0, 4],
+    quality: [0, 4],
+    instructorQuality: [0, 4]
+};
+
 const slice = createSlice({
     name: 'search',
-    initialState: {},
+    initialState: {
+        queryString: "",
+        filterString: "",
+        lastQueryString: "",
+        showFilter: false,
+        filters: initialFilters,
+        loaded: false
+    },
     reducers: {
         filtersSet: (search, action) => {
             if (action.payload.type === "quality") {
@@ -27,9 +40,7 @@ const slice = createSlice({
                 search.filters.difficulty = action.payload.value;
             } else if (action.payload.type === "instructorQuality") {
                 search.filters.instructorQuality = action.payload.value;
-            } else if (action.payload.type === "disable") {
-                search.filters = null;
-            }
+            } 
         },
         querySet: (search, action) => {
             console.log(action.payload);
@@ -50,7 +61,7 @@ const slice = createSlice({
             if (action.payload) search.showFilter = false;
             else search.showFilter = !search.showFilter;
         },
-        filterStringSet: (search, action) => {
+        filterStringSet: (search) => {
             if (search.showFilter) {
                 const difficulty = search.filters.difficulty;
                 const quality = search.filters.quality;
@@ -59,9 +70,12 @@ const slice = createSlice({
               } else {
                 search.filterString = "";
               }
+        },
+        lastQueryStringSet: (search, action) => {
+            search.lastQueryString = action.payload;
         }
     }
 });
 
-export const {filtersSet, querySet, loadedSet, showFilterSet, filterStringSet} = slice.actions;
+export const {filtersSet, querySet, loadedSet, showFilterSet, filterStringSet, lastQueryStringSet} = slice.actions;
 export default slice.reducer;

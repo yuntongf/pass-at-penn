@@ -3,36 +3,41 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'react-toastify/dist/ReactToastify.css'
 import '../App.css'
 import SearchResultDetail from '../components/SearchResult/SearchResultDetail'
-import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { loadCourses } from '../store/reducers/courses';
+import { detailViewed, loadCourses } from '../store/reducers/courses';
 import { loadedSet } from '../store/reducers/search';
-import { toastWarn } from '../services/NotificationServices';
 import { RootState } from '../store/configureStore'
+import { useGetCoursesQuery } from '../services/courseServices'
 
 const SearchResultPage = () => {
-  const dispatch = useDispatch();
-  const filterString = useSelector((store : RootState) => store.search.filterString);
-  const query = useSelector((store : RootState) => store.search.queryString);
-  
-  async function getData() {
-    fetch(`/api/base/2022C/search/courses/?type=course&search=${query + filterString}`)
-    .then(res => res.json())
-    .then(function (courses) {
-      dispatch(loadCourses(courses));
+    
+    const dispatch = useDispatch();
+    const showFilter = useSelector((store : RootState) => store.search.showFilter);
+    const filterString = useSelector((store : RootState) => store.search.filterString);
+    const filter = showFilter ? filterString : "";
+    const query = useSelector((store : RootState) => store.search.queryString);
+
+    // use RTK query to fetch data every time query or filter is changed
+    const {data, isLoading, isFetching, isSuccess} = useGetCoursesQuery(query + filter);
+    
+    if (isSuccess) {
+      dispatch(loadCourses(data));
       dispatch(loadedSet(true));
-    })};
-
-  useEffect(() => {
-    if (!query) {
-      toastWarn('Search field cannot be empty!');
-    } else {
+    } 
+    if (isFetching) {
+      dispatch(detailViewed(null)); // close detail window if a new search starts
       dispatch(loadedSet(false));
-      getData();
     }
-  }, [query, filterString])
 
-   return (<SearchResultDetail/>);
+  return (
+    <>
+      {!!isLoading && 
+        <div className='d-flex justify-content-center'>
+          <small>Loading...</small>
+        </div>}
+      {!!data && <SearchResultDetail/>}
+    </>
+  );
 }
 
 export default SearchResultPage;

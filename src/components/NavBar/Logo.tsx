@@ -4,19 +4,20 @@ import { querySet} from '../../store/reducers/search';
 import { detailViewed } from '../../store/reducers/courses';
 import { useDispatch} from 'react-redux';
 
-const Logo = () => {
-    const dispatch = useDispatch();
-    const logo = "Pass@Penn";
+// constants
+const logo = "Pass@Penn";
 
+const Logo = () => {
     const returnToFrontPage = () => {
-        dispatch(frontPageReturned(null));
+        dispatch(frontPageReturned());
         dispatch(querySet("")); // reset query in store when returning to the main page
         dispatch(detailViewed(null)); // reset current course to null
         dispatch(checkOutPageSet(false));
     }
 
+    const dispatch = useDispatch();
     return (
-        <Link to="/">
+        <Link to="/" className="">
             <label onClick={returnToFrontPage}>
                 <h2 className="m-2"> 
                     {logo} 

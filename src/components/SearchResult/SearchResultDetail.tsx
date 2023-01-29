@@ -14,7 +14,6 @@ const SearchResultDetail = () => {
    const showCart = useSelector((store : RootState) => store.nav.showCart)
    const loaded = useSelector((store : RootState) => store.search.loaded);
    const cart = useSelector((store : RootState) => store.entities.cart);
-   const showFilter = useSelector((store : RootState) => store.search.showFilter);
 
    // reload courses depending on cart
    useEffect(() => {

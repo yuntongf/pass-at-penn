@@ -1,10 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-//axios.defaults.headers.common['x-token'] = localStorage.getItem("token");
 axios.defaults.baseURL = "";
 
-axios.interceptors.response.use(null, (e) => {
+axios.interceptors.response.use(undefined, (e) => {
   const expectedError =
     e.response && e.response.status >= 400 && e.response.status < 500;
   if (!expectedError) {

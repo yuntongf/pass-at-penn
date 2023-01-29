@@ -7,4 +7,4 @@ export const detailWrapper = {
 
 export const descriptionWrapper = { height: 455, overflow: 'auto' };
 
-export const addRemoveButton = { width: 140 };
+export const addRemoveButton = { width: 110 };

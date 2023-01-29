@@ -1,10 +1,10 @@
 import React from "react";
 import { useDrop } from 'react-dnd';
-import {useSelector, useDispatch} from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { courseAddedToSemester } from "../../store/reducers/courses";
 import { semesterCourseList } from "../../styles/FourYearStyles";
 import CourseInCart from "../Cart/CourseInCart";
-import { IYear, ISemester, ICourse } from "../../store/configureStore";
+import { ISemester, ICourse } from "../../store/configureStore";
 
 interface SemesterProps {
     year: string,
@@ -12,13 +12,13 @@ interface SemesterProps {
 }
 
 const SemesterComponent = ({year, semester} : SemesterProps) => {
-    const dispatch = useDispatch();
-
     const handleDrop = (course : ICourse) => {
         dispatch(courseAddedToSemester({year: year, semester: semester.name, course: course}));
     }
 
-    const [{ isOver }, drop] = useDrop(() => ({
+    const dispatch = useDispatch();
+    /* react-dnd droppable*/
+    const [, drop] = useDrop(() => ({
         accept: 'course',
         drop: (course : ICourse) => handleDrop(course),
         collect: monitor => ({
