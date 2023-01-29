@@ -218,7 +218,9 @@ const slice = createSlice({
             if (target) target.added = false;
 
             //update course in entities.current
-            if (entities.current) entities.current.added = false;
+            if (entities.current && entities.current.id === courseToBeRemoved.id) {
+                entities.current.added = false;
+            }
         },
         newCartCreated: (entities, action) => {
             console.log('wawa');

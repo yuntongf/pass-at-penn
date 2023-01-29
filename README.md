@@ -1,6 +1,6 @@
 # Pass@Penn 
 
-To run the app, download the zip and run the following commands:
+To run the app, download the zip and run the following commands in terminal:
 
 ```
 npm install
