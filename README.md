@@ -1,11 +1,13 @@
-# Penn Course Cart https://www.penncoursecart.com/
+# Pass@Penn 
 
 ## Frameworks/Technologies/Packages
 React, TypeScript, Redux, Bootstrap, react-toastify, typescript-eslint, react-beautiful-dnd, axios, react-router-dom
 
 ## Main Features
 * Search for a course:
-user can search for courses using keyword, course department/number, and filter by quality, difficulty, and instructor quality. Makes api call to the penncourses backend using Redux RTK query and the search result is cached for 60 seconds on the client side to enable fast reponse time and lower burden on the backend.
+user can search for courses using keyword, course department/number, and filter by quality, difficulty, and instructor quality. 
+
+Makes api call to the penncourses backend using Redux RTK query and the search result is cached for 60 seconds on the client side to enable fast reponse time and lower burden on the backend.
 
 * Add a course to cart:
 User can add no more than 7 courses to cart. A react-toastify warning will be given if user exceeds the limit. A course added to cart will have a ✅ in front of its title.
